@@ -72,6 +72,22 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: spack buildcache push --only package buildcache $(spack --color never find --format '/{hash}')
 
+    # all the specs used by this job, including the build dependencies that are not
+    # installed when they come from the build cache, so that the cleanup keeps them
+    - name: List the dependencies used
+      if: github.event_name != 'pull_request'
+      run: |
+        spack --color never python -c 'import spack.store; print("\n".join(sorted({d.dag_hash() for s in spack.store.STORE.db.query() for d in s.traverse() if not d.external})))' \
+          > used-hashes.txt
+        wc -l used-hashes.txt
+
+    - name: Upload the list of dependencies used
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-artifact@v4
+      with:
+        name: used-hashes-${{ matrix.build_type }}
+        path: used-hashes.txt
+
     - name: Configure MFEM-MGIS
       shell: spack-sh {0}
       run: |
@@ -189,3 +205,29 @@ jobs:
         spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
               buildcache oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
         spack buildcache update-index buildcache
+
+    - name: Download the lists of dependencies used
+      if: needs.run_tests.result == 'success'
+      uses: actions/download-artifact@v4
+      with:
+        pattern: used-hashes-*
+
+    # dry run: only list the build cache entries that no job used
+    - name: Clean the build cache (dry run)
+      if: needs.run_tests.result == 'success'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
+        echo "$(wc -l < keep.txt) specs used"
+        gh api --paginate "/users/${{ github.repository_owner }}/packages/container/mfem-mgis-buildcache/versions" \
+          --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' > versions.txt
+        echo "$(wc -l < versions.txt) versions in the build cache"
+        while IFS=$'\t' read -r id tags; do
+          hash=$(echo "$tags" | sed -nE 's/.*-([a-z0-9]{32})\.spack$/\1/p')
+          if [ -z "$tags" ]; then
+            echo "would delete $id (untagged)"
+          elif [ -n "$hash" ] && ! grep -qx "$hash" keep.txt; then
+            echo "would delete $id $tags"
+          fi
+        done < versions.txt
