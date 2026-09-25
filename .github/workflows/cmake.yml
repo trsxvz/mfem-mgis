@@ -14,6 +14,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+env:
+  BUILD_CACHE: oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
+
 jobs:
   run_tests:
     runs-on: ubuntu-latest
@@ -47,7 +50,7 @@ jobs:
         git clone https://github.com/rprat-pro/spack-repo-mfem-mgis.git
         spack repo add spack-repo-mfem-mgis
         spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
-              buildcache oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
+              buildcache $BUILD_CACHE
         spack compiler find
         spack config add "config:install_tree:padded_length:128"
         spack config add "packages:all:require:[target=x86_64_v3]"
@@ -210,7 +213,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        package=/users/${{ github.repository_owner }}/packages/container/mfem-mgis-buildcache
+        package=/users/${{ github.repository_owner }}/packages/container/${BUILD_CACHE##*/}
         cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
         echo "$(wc -l < keep.txt) specs used"
         # safety net against empty or truncated lists
@@ -236,5 +239,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
-              buildcache oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
+              buildcache $BUILD_CACHE
         spack buildcache update-index buildcache
