@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partial quadrature functions &mdash; The MFEM MGIS project  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"tex": {"macros": {"paren": ["{\\left(#1\\right)}", 1], "transpose": ["{\\left.#1\\right.^{T}}", 1], "bts": ["{\\left.#1\\right|_{\\mathrm{bts}}}", 1], "ets": ["{\\left.#1\\right|_{\\mathrm{ets}}}", 1]}}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Glossary Of Parameters" href="../glossary.html" />
+    <link rel="prev" title="Partial quadrature spaces" href="partial_quadrature_spaces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The MFEM MGIS project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation_guide/installation_guide.html">Installation guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html">A tutorial introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html">Overview and main concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh/mesh.html">Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simulation/simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../behaviour_integrators.html">Behaviour integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../boundary_conditions.html">Boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../post_processings/post_processings.html">Post-processings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nonlinear_algorithms.html">Available nonlinear algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="partial_quadrature_spaces_and_functions.html">Partial quadrature spaces and functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="partial_quadrature_spaces.html">Partial quadrature spaces</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Partial quadrature functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#projection-of-a-grid-function-to-a-partial-quadrature-function">Projection of a grid function to a partial quadrature function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extrapolating-quadrature-functions-at-nodes">Extrapolating quadrature functions at nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#projecting-quadrature-functions-at-nodes">Projecting quadrature functions at nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implicit-gradient-regularization">Implicit gradient regularization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#miscellaneous-functions">Miscellaneous functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../glossary.html">Glossary Of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../help.html">Getting help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../release_notes/release_notes.html">Release notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tests/unit_tests.html">List of unit tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../commented_examples/index.html">Commented Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_guide/developer_guide.html">Developer guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The MFEM MGIS project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../user_guide.html">User guide</a></li>
+          <li class="breadcrumb-item"><a href="partial_quadrature_spaces_and_functions.html">Partial quadrature spaces and functions</a></li>
+      <li class="breadcrumb-item active">Partial quadrature functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/user_guide/partial_quadrature_functions/partial_quadrature_functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="partial-quadrature-functions">
+<span id="mfem-mgis-partial-quadrature-functions"></span><h1>Partial quadrature functions<a class="headerlink" href="#partial-quadrature-functions" title="Link to this heading"></a></h1>
+<p>Partial quadrature functions map quadrature points to values. A partial
+quadrature function is defined on the quadrature points associated with
+a unique material.</p>
+<section id="projection-of-a-grid-function-to-a-partial-quadrature-function">
+<h2>Projection of a grid function to a partial quadrature function<a class="headerlink" href="#projection-of-a-grid-function-to-a-partial-quadrature-function" title="Link to this heading"></a></h2>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">update</span></code> function allows projecting a grid function to a
+partial quadrature function.</p>
+<section id="example-of-usage">
+<h3>Example of usage<a class="headerlink" href="#example-of-usage" title="Link to this heading"></a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">update</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="extrapolating-quadrature-functions-at-nodes">
+<h2>Extrapolating quadrature functions at nodes<a class="headerlink" href="#extrapolating-quadrature-functions-at-nodes" title="Link to this heading"></a></h2>
+<p>Using a so-called <code class="code highlight c++ docutils literal highlight-c++"><span class="n">GridFunction</span></code>, a set of partial quadrature
+functions, each associated with a distinct material, can be extrapolated
+at nodes:</p>
+<ul class="simple">
+<li><p>the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">makeGridFunction</span></code> creates the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">GridFunction</span></code> and the associated
+finite element space.</p></li>
+<li><p>the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">updateGridFunction</span></code> fills the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">GridFunction</span></code> with the values of
+the partial quadrature functions.</p></li>
+</ul>
+<p>A <code class="code highlight c++ docutils literal highlight-c++"><span class="n">GridFunction</span></code> being an <code class="code highlight c++ docutils literal highlight-c++"><span class="n">MFEM</span></code> object, the reader may refer
+to the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">MFEM</span></code> documentation for further details. In particular, a
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">GridFunction</span></code> can easily be exported to <cite>Paraview</cite> using
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">MFEM</span></code>’s <code class="code highlight c++ docutils literal highlight-c++"><span class="n">ParaViewDataCollection</span></code>.</p>
+</section>
+<section id="projecting-quadrature-functions-at-nodes">
+<h2>Projecting quadrature functions at nodes<a class="headerlink" href="#projecting-quadrature-functions-at-nodes" title="Link to this heading"></a></h2>
+<p>The <span class="math notranslate nohighlight">\(L_{2}\)</span> projection <span class="math notranslate nohighlight">\(\bar{f}\)</span> of a scalar quadrature
+function <span class="math notranslate nohighlight">\(f\)</span> is obtained by minimizing the following functional:</p>
+<div class="math notranslate nohighlight">
+\[\int_{\Omega} \left(\bar{f}-f\right)^{2}\,\mathrm{d}\,V\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Omega\)</span> is the domain on which <cite>f</cite> is defined.</p>
+<p>For a set of quadrature functions, the projection is computed on the
+union of the domains of the quadrature functions.</p>
+<p>For vectorial functions, the projection is computed component-wise.</p>
+<section id="available-functions">
+<h3>Available functions<a class="headerlink" href="#available-functions" title="Link to this heading"></a></h3>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computeL2Projection</span></code> function allows projecting a set of
+quadrature functions on nodes by minimizing the <span class="math notranslate nohighlight">\(L_{2}\)</span> norm of
+the difference of the projection and the values of the quadrature functions.</p>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computeL2Projection</span></code> function internally calls successively the
+functions <code class="code highlight c++ docutils literal highlight-c++"><span class="n">createL2ProjectionResult</span></code> and <code class="code highlight c++ docutils literal highlight-c++"><span class="n">updateL2Projection</span></code>.
+Those functions can be used directly if the projection has to be
+performed several times.</p>
+</section>
+<section id="id1">
+<h3>Example of usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LinearFactor</span><span class="o">&lt;</span><span class="n">parallel</span><span class="o">&gt;::</span><span class="n">getFactory</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">fct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PartialQuadratureFunction</span><span class="o">::</span><span class="n">evaluate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">fespace</span><span class="p">,</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"> </span><span class="p">});</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"MUMPSSolver"</span><span class="p">,</span><span class="w"> </span><span class="n">fespace</span><span class="p">,</span><span class="w"> </span><span class="p">{});</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">oresult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">computeL2Projection</span><span class="o">&lt;</span><span class="n">parallel</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="o">*</span><span class="n">fct</span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implicit-gradient-regularization">
+<h2>Implicit gradient regularization<a class="headerlink" href="#implicit-gradient-regularization" title="Link to this heading"></a></h2>
+<p>For a scalar function <span class="math notranslate nohighlight">\(f\)</span>, the implicit gradient regularization
+<span class="math notranslate nohighlight">\(\bar{f}\)</span> is defined as the solution of:</p>
+<div class="math notranslate nohighlight">
+\[\bar{f}-l_{c}^{2}\cdot\Delta\bar{f}=f\]</div>
+<p>where <span class="math notranslate nohighlight">\(l_{c}\)</span> is a characteristic length.</p>
+<p>See <span class="bibtex-citation" id="id2">[<a class="reference internal" href="../../index.html#id7" title="R. H. J. Peerlings, R. De Borst, W. a. M. Brekelmans, and J. H. P. De Vree. Gradient enhanced damage for quasi-brittle materials. International Journal for Numerical Methods in Engineering, 39(19):3391–3403, 1996. _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/%28SICI%291097-0207%2819961015%2939%3A19%3C3391%3A%3AAID-NME7%3E3.0.CO%3B2-D. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/%28SICI%291097-0207%2819961015%2939%3A19%3C3391%3A%3AAID-NME7%3E3.0.CO%3B2-D (visited on 2026-01-22), doi:10.1002/(SICI)1097-0207(19961015)39:19&lt;3391::AID-NME7&gt;3.0.CO;2-D.">PDBBDV96</a>]</span> for details.</p>
+<p>For a vectorial function, the implicit gradient regularization is
+computed component-wise.</p>
+<section id="id3">
+<h3>Available functions<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computeImplicitGradientRegularization</span></code> function solves
+the previous equation to determine <span class="math notranslate nohighlight">\(\bar{f}\)</span>.</p>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computeImplicitGradientRegularization</span></code> function internally calls
+successively the functions <code class="code highlight c++ docutils literal highlight-c++"><span class="n">createL2Projection</span></code> and
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">updateImplicitGradientRegularization</span></code>. Those functions can be used
+directly if the projection has to be performed several times.</p>
+</section>
+<section id="id4">
+<h3>Example of usage<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">fct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PartialQuadratureFunction</span><span class="o">::</span><span class="n">evaluate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">space</span><span class="p">,</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">real</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">l0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"MUMPSSolver"</span><span class="p">,</span><span class="w"> </span><span class="n">fespace</span><span class="p">,</span><span class="w"> </span><span class="p">{});</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">oresult</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">computeImplicitGradientRegularization</span><span class="o">&lt;</span><span class="n">parallel</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="o">*</span><span class="n">fct</span><span class="p">},</span><span class="w"> </span><span class="n">l0</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="miscellaneous-functions">
+<h2>Miscellaneous functions<a class="headerlink" href="#miscellaneous-functions" title="Link to this heading"></a></h2>
+<section id="rotatethermodynamicforcestoglobalframe">
+<h3><code class="code highlight c++ docutils literal highlight-c++"><span class="n">rotateThermodynamicForcesToGlobalFrame</span></code><a class="headerlink" href="#rotatethermodynamicforcestoglobalframe" title="Link to this heading"></a></h3>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="partial_quadrature_spaces.html" class="btn btn-neutral float-left" title="Partial quadrature spaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../glossary.html" class="btn btn-neutral float-right" title="Glossary Of Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021-2024, Thomas Helfer, Guillaume Latu, Raphaël Prat, Maxence Wangermez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

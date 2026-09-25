@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Release notes of Version 1.1 &mdash; The MFEM MGIS project  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"tex": {"macros": {"paren": ["{\\left(#1\\right)}", 1], "transpose": ["{\\left.#1\\right.^{T}}", 1], "bts": ["{\\left.#1\\right|_{\\mathrm{bts}}}", 1], "ets": ["{\\left.#1\\right|_{\\mathrm{ets}}}", 1]}}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Release notes of Version 1.0.4" href="release_notes-1.0.4.html" />
+    <link rel="prev" title="Release notes" href="release_notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The MFEM MGIS project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation_guide/installation_guide.html">Installation guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html">A tutorial introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html">Overview and main concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh/mesh.html">Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simulation/simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../behaviour_integrators.html">Behaviour integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../boundary_conditions.html">Boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../post_processings/post_processings.html">Post-processings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nonlinear_algorithms.html">Available nonlinear algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partial_quadrature_functions/partial_quadrature_spaces_and_functions.html">Partial quadrature spaces and functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../glossary.html">Glossary Of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../help.html">Getting help</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="release_notes.html">Release notes</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Release notes of Version 1.1</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#highlights">Highlights</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-incompatibilites">Known incompatibilites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#new-features">New features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#issues-fixed">Issues fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes-1.0.4.html">Release notes of Version 1.0.4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release_notes-1.0.0.html">Release notes of Version 1.0.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tests/unit_tests.html">List of unit tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../commented_examples/index.html">Commented Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_guide/developer_guide.html">Developer guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The MFEM MGIS project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../user_guide.html">User guide</a></li>
+          <li class="breadcrumb-item"><a href="release_notes.html">Release notes</a></li>
+      <li class="breadcrumb-item active">Release notes of Version 1.1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/user_guide/release_notes/release_notes-1.1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="release-notes-of-version-1-1">
+<span id="mfem-mgis-release-notes-1-1"></span><h1>Release notes of Version 1.1<a class="headerlink" href="#release-notes-of-version-1-1" title="Link to this heading"></a></h1>
+<p>This version inherits from all the features introduced in:</p>
+<ul class="simple">
+<li><p>Version 1.0.1</p></li>
+<li><p>Version 1.0.2</p></li>
+<li><p>Version 1.0.3</p></li>
+<li><p><a class="reference internal" href="release_notes-1.0.4.html#mfem-mgis-release-notes-1-0-4"><span class="std std-ref">Release notes of Version 1.0.4</span></a></p></li>
+</ul>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#highlights" id="id5">Highlights</a></p></li>
+<li><p><a class="reference internal" href="#known-incompatibilites" id="id6">Known incompatibilites</a></p></li>
+<li><p><a class="reference internal" href="#new-features" id="id7">New features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#prediction-of-the-solution" id="id8">Prediction of the solution</a></p>
+<ul>
+<li><p><a class="reference internal" href="#available-strategies" id="id9">Available strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#fbar-formulation" id="id10">FBar formulation</a></p></li>
+<li><p><a class="reference internal" href="#faltus-2026-regularization" id="id11">Faltus 2026 regularization</a></p></li>
+<li><p><a class="reference internal" href="#the-info-function" id="id12">The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">info</span></code> function</a></p>
+<ul>
+<li><p><a class="reference internal" href="#retrieving-information-on-a-finite-element-discretization" id="id13">Retrieving information on a finite element discretization</a></p></li>
+<li><p><a class="reference internal" href="#retrieving-information-on-a-partial-quadrature-space" id="id14">Retrieving information on a partial quadrature space</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#evaluators-of-quantities-at-integration-points" id="id15">Evaluators of quantities at integration points</a></p>
+<ul>
+<li><p><a class="reference internal" href="#overview" id="id16">Overview</a></p></li>
+<li><p><a class="reference internal" href="#the-setmaterialproperty-and-setexternalstatevariable-methods-of-behaviour-integrators" id="id17">The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setMaterialProperty</span></code> and <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setExternalStateVariable</span></code> methods of behaviour integrators</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#resolution-of-dependencies-of-a-nonlinear-evolution-problemn-using-another" id="id18">Resolution of dependencies of a nonlinear evolution problemn using another</a></p></li>
+<li><p><a class="reference internal" href="#the-simulation-class" id="id19">The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">Simulation</span></code> class</a></p></li>
+<li><p><a class="reference internal" href="#physical-system-coupling-schemes-and-models" id="id20">Physical system, coupling schemes and models</a></p></li>
+<li><p><a class="reference internal" href="#line-search-like-handling-of-behaviour-integration-failures" id="id21">Line-search-like handling of behaviour integration failures</a></p></li>
+<li><p><a class="reference internal" href="#profiling-toolkit" id="id22">Profiling Toolkit</a></p></li>
+<li><p><a class="reference internal" href="#refactoring-of-submesh-and-finite-element-space-creation" id="id23">Refactoring of submesh and finite element space creation</a></p></li>
+<li><p><a class="reference internal" href="#search-of-the-behaviour-integrator-providing-a-quantity" id="id24">Search of the behaviour integrator providing a quantity</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#issues-fixed" id="id25">Issues fixed</a></p></li>
+</ul>
+</nav>
+<section id="highlights">
+<h2>Highlights<a class="headerlink" href="#highlights" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>NonLinearEvolutionProblem</cite> are now able to make a prediction of the
+solution, removing major convergence issues when imposed displacements
+are imposed.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(\bar{F}\)</span> method, or FBar formulation, has been implemented
+for finite strain behaviours to handle nearly incompressible materials.</p></li>
+<li><p>The regularization proposed by Faltus et al. in the context of the
+third medium contact has been implemented for plane strain, plane
+stress and tridmensional hypotheses.</p></li>
+<li><p><cite>MGIS</cite>’s contexts now handle gathering computation time information to
+create the performance table instead of the previously used
+<cite>CatchTimeSection</cite>.</p></li>
+<li><p>Many methods have been deprecated to have a consistent error handling
+scheme based on <cite>MGIS</cite>’s one. As such, many methods and functions now
+takes and <cite>MGIS</cite>’s <code class="code highlight c++ docutils literal highlight-c++"><span class="n">Context</span></code> as their first argument.</p></li>
+<li><p>The name of the materials and boundaries are automatically retrieved
+from mfem’s mesh.</p></li>
+</ul>
+</section>
+<section id="known-incompatibilites">
+<h2>Known incompatibilites<a class="headerlink" href="#known-incompatibilites" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>In previous versions, the failure of Hypre’s linear iterative solvers
+were discarded by <cite>MFEM/MGIS</cite>’s Newton solver due to the lack of
+methods to test their convergence in mfem’s version prior to 4.10.
+The parameter <cite>DiscardLinearSolverFailure</cite> can be passed to
+<cite>MFEM/MGIS</cite>’s Newton solver to recover the behavior of previous
+versions.</p></li>
+</ul>
+</section>
+<section id="new-features">
+<h2>New features<a class="headerlink" href="#new-features" title="Link to this heading"></a></h2>
+<section id="prediction-of-the-solution">
+<h3>Prediction of the solution<a class="headerlink" href="#prediction-of-the-solution" title="Link to this heading"></a></h3>
+<p>By default, a nonlinear evolution problem uses the solution at the
+beginning of the time step, modified by applying Dirichlet boundary
+conditions, as the initial guess of the solution at the end of the time
+step, see below for details.</p>
+<p>This can be changed by using the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setPredictionPolicy</span></code>
+method, as follows:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// use the elastic operator by default</span>
+<span class="n">mechanics</span><span class="p">.</span><span class="n">setPredictionPolicy</span><span class="p">(</span>
+<span class="w">   </span><span class="p">{.</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">BEGINNING_OF_TIME_STEP_PREDICTION</span><span class="p">});</span>
+</pre></div>
+</div>
+<section id="available-strategies">
+<h4>Available strategies<a class="headerlink" href="#available-strategies" title="Link to this heading"></a></h4>
+<section id="default-prediction-predictionstrategy-default-prediction">
+<h5>Default prediction (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">DEFAULT_PREDICTION</span></code>)<a class="headerlink" href="#default-prediction-predictionstrategy-default-prediction" title="Link to this heading"></a></h5>
+<p>By default, a nonlinear evolution problem uses the solution at the
+beginning of the time step, modified by applying Dirichlet boundary
+conditions, as the initial guess of the solution at the end of the time
+step.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In mechanics, this may lead to very high increments of the deformation
+gradients or the strain in the neighboring elements of boundaries where
+evolving displacements are imposed.</p>
+</div>
+</section>
+<section id="prediction-for-the-state-at-the-beginning-of-the-time-step-predictionstrategy-beginning-of-time-step-prediction">
+<h5>Prediction for the state at the beginning of the time step (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">BEGINNING_OF_TIME_STEP_PREDICTION</span></code>)<a class="headerlink" href="#prediction-for-the-state-at-the-beginning-of-the-time-step-predictionstrategy-beginning-of-time-step-prediction" title="Link to this heading"></a></h5>
+<p>The prediction for the state at the beginning of the time step strategy
+determines the increment of the displacement <span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span>
+by solving the following linear system:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{K}\,\cdot\,\Delta\,\mathbb{u} = \ets{\mathbb{F}_{e}}-\bts{\mathbb{F}_{i}}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbb{K}_{e}\)</span> denotes one of the prediction operator (see below).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{e}}\)</span> denotes the external forces at the beginning
+of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{i}}\)</span> denotes the inner forces at the beginning
+of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span> is submitted to the increment of the
+imposed Dirichlet boundary conditions.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the wording explicitly refers to mechanics, this equation
+applies to all physics.</p>
+</div>
+<p>The following prediction operators can be chosen:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">ELASTIC</span></code>: the elastic operator</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">SECANT</span></code>: the secant operator is typically
+defined by the elastic operator</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">TANGENT_PREDICTION</span></code>: the tangent operator,
+defined by the time-continuous derivative of the thermodynamic force
+with respect to the gradients.</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">LAST_ITERATE_OPERATOR</span></code>: this operator reuses
+the one computed at the last iteration of the previous time step. At
+the first time step, the elastic operator is used.</p></li>
+</ul>
+</section>
+<section id="prediction-based-on-a-behaviour-integration-with-constant-gradients-predictionstrategy-constant-gradients-integration-prediction">
+<h5>Prediction based on a behaviour integration with constant gradients (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">CONSTANT_GRADIENTS_INTEGRATION_PREDICTION</span></code>)<a class="headerlink" href="#prediction-based-on-a-behaviour-integration-with-constant-gradients-predictionstrategy-constant-gradients-integration-prediction" title="Link to this heading"></a></h5>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">CONSTANT_GRADIENTS_INTEGRATION</span></code> strategy determines the
+increment of the unknown <span class="math notranslate nohighlight">\(\Delta\,{u}\)</span> by solving the following
+linear system:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{\mathbb{K}}\,\cdot\,\Delta\,\mathbb{u} =
+\ets{\mathbb{F}_{e}}-\ets{\tilde{\mathbb{F}}_{i}}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tilde{\mathbb{K}}\)</span> denotes the operator computed at the end of
+the behaviour integration.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{e}}\)</span> denotes the external forces at the
+beginning of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\ets{\tilde{\mathbb{F}}_{i}}\)</span> denotes an approximation inner
+forces at the end of the time step computed by assuming that the
+gradients are constant over the time (and thus equal to their values at
+the beginning of the time step).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span> is submitted to the increment of the
+imposed Dirichlet boundary conditions.</p></li>
+</ul>
+<p>The behaviour integration allows taking into account:</p>
+<ul class="simple">
+<li><p>the evolution of stress-free strain over the time step (thermal
+expansion, swelling, etc..),</p></li>
+<li><p>the viscoplastic relaxation of the stress. This relaxation can be
+discarded by integrating the behaviour with a null time step.</p></li>
+</ul>
+<p>The following operators are available:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">ELASTIC</span></code>: the elastic operator,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">SECANT</span></code>: the secant operator is typically
+defined by the elastic operator affected by damage,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">TANGENT</span></code>: the tangent operator, defined by
+the time-continuous derivative of the thermodynamic force with respect
+to the gradients,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">CONSISTENT_TANGENT</span></code>: the consistent
+tangent operator, defined by the derivative of the thermodynamic force
+with respect to the gradients at the end of the time step. See
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="../../index.html#id6" title="J. C. Simo and R. L. Taylor. Consistent tangent operators for rate-independent elastoplasticity. Computer Methods in Applied Mechanics and Engineering, 48(1):101–118, 1985. URL: http://www.sciencedirect.com/science/article/pii/0045782585900702 (visited on 2014-04-02), doi:10.1016/0045-7825(85)90070-2.">ST85</a>]</span> for details.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="fbar-formulation">
+<h3>FBar formulation<a class="headerlink" href="#fbar-formulation" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>The <span class="math notranslate nohighlight">\(\bar{F}\)</span> method, or FBar formulation, is implemented following
+<span class="bibtex-citation" id="id2">[<a class="reference internal" href="../../index.html#id4" title="E. A. de Souza Neto, D. Perić, M. Dutko, and D. R. J. Owen. Design of simple low order finite elements for large strain analysis of nearly incompressible solids. International Journal of Solids and Structures, 33(20):3277–3296, 1996. URL: https://www.sciencedirect.com/science/article/pii/0020768395002596 (visited on 2026-03-20), doi:10.1016/0020-7683(95)00259-6.">dSNPDO96</a>]</span>. This formulation is designed to handle
+nearly incompressible materials in large strain analysis by using a modified
+deformation gradient <span class="math notranslate nohighlight">\(\bar{\underline{F}}\)</span> that separates volumetric and
+deviatoric responses.</p>
+<p>The method replaces the standard deformation gradient <span class="math notranslate nohighlight">\(\underline{F}\)</span>
+with an assumed modified counterpart <span class="math notranslate nohighlight">\(\bar{\underline{F}}\)</span> in the
+computation of stresses. This modification is based on a multiplicative split
+into volumetric and deviatoric parts:</p>
+<div class="math notranslate nohighlight">
+\[\underline{F} = J^{1/3}\, \bar{\underline{F}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(J = \det{\underline{F}}\)</span> is the Jacobian of the deformation
+gradient. This formulation effectively avoids locking issues in nearly
+incompressible materials while maintaining accuracy.</p>
+<p>The <span class="math notranslate nohighlight">\(\bar{F}\)</span> formulation is particularly suited for low-order finite
+elements and is applicable to arbitrary material models. It ensures quadratic
+rates of convergence in Newton-Raphson schemes.</p>
+<p>This formulation is enabled by passing an additional parameter to the
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">Mechanics</span></code> behaviour integrator, as follows:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">fbar_parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">dict</span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="s">"Regularization"</span><span class="p">,</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">dict</span><span class="p">{{{</span><span class="s">"FBar"</span><span class="p">,</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">list</span><span class="p">{}}}}};</span>
+<span class="n">mechanics</span><span class="p">.</span><span class="n">addBehaviourIntegrator</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"Mechanics"</span><span class="p">,</span><span class="w"> </span><span class="n">library</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">behaviour</span><span class="p">,</span><span class="w"> </span><span class="n">fbar_parameters</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">or_die</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="faltus-2026-regularization">
+<h3>Faltus 2026 regularization<a class="headerlink" href="#faltus-2026-regularization" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>The regularization proposed by Faltus et al. in the context of contact
+mechanics using a third medium is implemented here <span class="bibtex-citation" id="id3">[<a class="reference internal" href="../../index.html#id5" title="Ondřej Faltus, Marco Amato, and Martin Horák. Deformation gradient averaging regularization for third medium contact. URL: https://arxiv.org/abs/2603.13063v1 (visited on 2026-03-20).">FAH</a>]</span>. This
+regularization only applies to finite strain behaviours. Currently, this
+regularization is only available for isotropic behaviours.</p>
+<p>This regularization adds a contribution to the standard variational
+operator in finite strain and can be derived from an energy <span class="math notranslate nohighlight">\(W\)</span>
+which penalizes the difference between the deformation gradient
+<span class="math notranslate nohighlight">\(\underline{F}\)</span> at a given quadrature point and its value
+<span class="math notranslate nohighlight">\(\bar{\underline{F}}\)</span> at the centroid of the element:</p>
+<div class="math notranslate nohighlight">
+\[W\left(\underline{F}, \bar{\underline{F}}\right) =
+\alpha\,\left(\underline{F}-\bar{\underline{F}}\right)\,\colon\,
+\left(\underline{F}-\bar{\underline{F}}\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span> is a penalization coefficient.</p>
+<p>This regularization is enabled by passing an additional parameter to the
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">Mechanics</span></code> behaviour integrator, as follows:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">faltus_parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">Parameters</span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="s">"Regularization"</span><span class="p">,</span>
+<span class="w">     </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">Parameters</span><span class="p">{</span>
+<span class="w">         </span><span class="p">{</span><span class="s">"Faltus2026"</span><span class="p">,</span>
+<span class="w">          </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">Parameters</span><span class="p">{{{</span><span class="s">"PenalizationCoefficient"</span><span class="p">,</span><span class="w"> </span><span class="mf">1e11</span><span class="p">}}}}}};</span>
+<span class="n">mechanics</span><span class="p">.</span><span class="n">addBehaviourIntegrator</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"Mechanics"</span><span class="p">,</span><span class="w"> </span><span class="s">"ThirdMedium"</span><span class="p">,</span><span class="w"> </span><span class="n">library</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">behaviour2</span><span class="p">,</span><span class="w"> </span><span class="n">faltus_parameters</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">or_die</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="the-info-function">
+<h3>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">info</span></code> function<a class="headerlink" href="#the-info-function" title="Link to this heading"></a></h3>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">info</span></code> function allows displaying information about an object
+in an output stream.</p>
+<section id="retrieving-information-on-a-finite-element-discretization">
+<h4>Retrieving information on a finite element discretization<a class="headerlink" href="#retrieving-information-on-a-finite-element-discretization" title="Link to this heading"></a></h4>
+<section id="example-of-usage">
+<h5>Example of usage<a class="headerlink" href="#example-of-usage" title="Link to this heading"></a></h5>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">fed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">problem</span><span class="p">.</span><span class="n">getFiniteElementDiscretization</span><span class="p">();</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">info</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">fed</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="retrieving-information-on-a-partial-quadrature-space">
+<h4>Retrieving information on a partial quadrature space<a class="headerlink" href="#retrieving-information-on-a-partial-quadrature-space" title="Link to this heading"></a></h4>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">PartialQuadratureSpaceInformation</span></code> structure contains some
+relevant information about a partial quadrature space:</p>
+<ul class="simple">
+<li><p>the identifier and the name of the underlying material,</p></li>
+<li><p>the total number of elements,</p></li>
+<li><p>the total number of integration points,</p></li>
+<li><p>the number of elements points per geometric type.</p></li>
+<li><p>the number of quadrature points per geometric type.</p></li>
+</ul>
+<p>This structure is created by:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">getLocalInformation</span></code>, which returns the information relative to
+the current process.</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">getInformation</span></code>, which returns the information gathered from all
+processes.</p></li>
+</ul>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">PartialQuadratureSpaceInformation</span></code> structure can be printed to
+an output stream using the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">info</span></code> function.</p>
+<section id="id4">
+<h5>Example of usage<a class="headerlink" href="#id4" title="Link to this heading"></a></h5>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">qspace</span><span class="w"> </span><span class="o">=</span>
+<span class="w">   </span><span class="n">problem</span><span class="p">.</span><span class="n">getBehaviourIntegrator</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">getPartialQuadratureSpace</span><span class="p">();</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfem_mgis</span><span class="o">::</span><span class="n">info</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="n">qspace</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="evaluators-of-quantities-at-integration-points">
+<h3>Evaluators of quantities at integration points<a class="headerlink" href="#evaluators-of-quantities-at-integration-points" title="Link to this heading"></a></h3>
+<section id="overview">
+<h4>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h4>
+</section>
+<section id="the-setmaterialproperty-and-setexternalstatevariable-methods-of-behaviour-integrators">
+<h4>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setMaterialProperty</span></code> and <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setExternalStateVariable</span></code> methods of behaviour integrators<a class="headerlink" href="#the-setmaterialproperty-and-setexternalstatevariable-methods-of-behaviour-integrators" title="Link to this heading"></a></h4>
+</section>
+</section>
+<section id="resolution-of-dependencies-of-a-nonlinear-evolution-problemn-using-another">
+<h3>Resolution of dependencies of a nonlinear evolution problemn using another<a class="headerlink" href="#resolution-of-dependencies-of-a-nonlinear-evolution-problemn-using-another" title="Link to this heading"></a></h3>
+</section>
+<section id="the-simulation-class">
+<h3>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">Simulation</span></code> class<a class="headerlink" href="#the-simulation-class" title="Link to this heading"></a></h3>
+</section>
+<section id="physical-system-coupling-schemes-and-models">
+<h3>Physical system, coupling schemes and models<a class="headerlink" href="#physical-system-coupling-schemes-and-models" title="Link to this heading"></a></h3>
+</section>
+<section id="line-search-like-handling-of-behaviour-integration-failures">
+<h3>Line-search-like handling of behaviour integration failures<a class="headerlink" href="#line-search-like-handling-of-behaviour-integration-failures" title="Link to this heading"></a></h3>
+</section>
+<section id="profiling-toolkit">
+<h3>Profiling Toolkit<a class="headerlink" href="#profiling-toolkit" title="Link to this heading"></a></h3>
+<p>Timers are now accessible by MGIS contexts, offering greater flexibility:</p>
+<ul class="simple">
+<li><p>Eliminates the need for a single global object</p></li>
+<li><p>Allows multiple contexts and the ability to distinguish different parts of the code managed through separate objects</p></li>
+<li><p>Prevents potential negative interactions with other code using the same timer type.</p></li>
+</ul>
+<p>Example of usage:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">CatchTimeSection</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"Class::FunctionName"</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="refactoring-of-submesh-and-finite-element-space-creation">
+<h3>Refactoring of submesh and finite element space creation<a class="headerlink" href="#refactoring-of-submesh-and-finite-element-space-creation" title="Link to this heading"></a></h3>
+<p>The creation of submeshes and associated finite element spaces has been refactored to be handled through the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">MeshDiscretization</span></code> and <code class="code highlight c++ docutils literal highlight-c++"><span class="n">FiniteElementSpacesManager</span></code> classes. This refactoring introduces the following new classes:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">MeshDiscretization</span></code>: A fundamental class that handles the lifetime of meshes and provides utilities for managing mesh-related operations, including submesh creation based on material or boundary identifiers.</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">FiniteElementDiscretization</span></code>: Extends <code class="code highlight c++ docutils literal highlight-c++"><span class="n">MeshDiscretization</span></code> to handle the lifetime of finite element collections and spaces, providing a high-level interface for creating and managing finite element spaces.</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">FiniteElementSpacesManager</span></code>: Manages similar finite element spaces (siblings) that share the same mesh and finite element collection but may have different vectorial dimensions, with automatic reuse of existing spaces.</p></li>
+</ul>
+<p>This refactoring improves code organization, reduces duplication, and provides a more consistent and flexible API for working with submeshes and finite element spaces.</p>
+</section>
+<section id="search-of-the-behaviour-integrator-providing-a-quantity">
+<h3>Search of the behaviour integrator providing a quantity<a class="headerlink" href="#search-of-the-behaviour-integrator-providing-a-quantity" title="Link to this heading"></a></h3>
+<p>The functions <code class="code highlight c++ docutils literal highlight-c++"><span class="n">hasGradientProvider</span></code>,
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">hasThermodynamicForceProvider</span></code> and
+<code class="code highlight c++ docutils literal highlight-c++"><span class="n">hasInternalStateVariableProvider</span></code> search, among the behaviour
+integrators defined on a given location, the one providing a given
+quantity. The <code class="docutils literal notranslate"><span class="pre">ParaviewExportIntegrationPointResultsAtNodes</span></code>
+post-processing relies on them, so that a result can be exported on a
+material carrying several behaviour integrators.</p>
+</section>
+</section>
+<section id="issues-fixed">
+<h2>Issues fixed<a class="headerlink" href="#issues-fixed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Issue 292: Remove deprecated usage of <cite>getMaterial</cite> in
+<cite>ParaviewExportIntegrationPointResultsAtNodesBase::getPartialQuadratureFunctionViews</cite>
+and <cite>ParaviewExportIntegrationPointResultsAtNodesBase::getResultDescription</cite></p></li>
+<li><p>Issue 290: Add support for partial quadratures spaces on boundaries</p></li>
+<li><p>Issue 288: ￼master doesnt build without MPI</p></li>
+<li><p>Issue 286: updateGridFunction dilutes interface values when the
+functions do not cover all the materials of the mesh</p></li>
+<li><p>Issue 284: NonLinearModel does not export the initial state</p></li>
+<li><p>Issue 281:￼ Nodal export of integration point results uses the node
+index as an integration point index</p></li>
+<li><p>Issue 279: ParaviewExportResults silently ignores unknown parameters</p></li>
+<li><p>Issue 277: NonLinearModel calls the deprecated solve and loses the
+caller’s context</p></li>
+<li><p>Issue 275: UniformHeatSourceBoundaryCondition: only the last
+integration point contributes to the residual ￼</p></li>
+<li><p>Issue 273: Fix forgotten change while parallel execution bug in
+behaviour integration ￼</p></li>
+<li><p>Issue 270: FirstIterationConvergenceCriterion never triggers coupling
+iterations + wrong post-processing time</p></li>
+<li><p>Issue 268: Parallel execution bug in behaviour integration</p></li>
+<li><p>Issue 264: Installation from the doc fails on a fresh setup</p></li>
+<li><p>Issue 262: Refactor creation of submeshes and associated finite
+element spaces to handle it through MeshDiscretization and
+FiniteElementSpacesManager enhancement ￼</p></li>
+<li><p>Issue 260: Refactor commented examples documentation</p></li>
+<li><p>Issue 257: Allow NewtonSolver to discard linear solver failures</p></li>
+<li><p>Issue 254: Missing parameter option for GMRESSolver</p></li>
+<li><p>Issue 253: Incomplete linear solver convergence checks in
+NonLinearEvolutionProblemImplementation.cxx and NewtonSolver.cxx</p></li>
+<li><p>Issue 248: Improve <cite>PartialQuadratureFunction</cite> interface</p></li>
+<li><p>Issue 245: Check the size of the unknown when defining bricks</p></li>
+<li><p>Issue 240: Small bug in <cite>LinearSolverFactory.cxx</cite></p></li>
+<li><p>Issue 237: [cmake] Add a build-tests target</p></li>
+<li><p>Issue 218: [performance] synchronize success of the setup methods at a
+higher level to minimize collective communications enhancement</p></li>
+<li><p>Issue 213: ￼ Add a simple way to resolve dependencies (material
+properties, external state variables) of a <code class="code highlight c++ docutils literal highlight-c++"><span class="n">NonLinearEvolutionProblem</span></code>
+using the gradients, thermodynamic forces and internal state variables
+of another one.</p></li>
+<li><p>Issue 211: Add coupling schemes and models</p></li>
+<li><p>Issue 209: Introduce the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">Simulation</span></code> class￼</p></li>
+<li><p>Issue 206: Line-search-like handling of behaviour integration failures</p></li>
+<li><p>Issue 200: automatically assign materials and boundaries’s names from
+mfem’s attributes ￼</p></li>
+<li><p>Issue 198: Add the ability to define multiple behaviour integrators on
+the same material</p></li>
+<li><p>Issue 193: Add support for other types of search operators for
+computing a prediction of the solution at the end of the time step
+enhancement</p></li>
+<li><p>Issue 192: Take external forces into account when computing the
+prediction of the solution</p></li>
+<li><p>Issue 188: retrieve information about a quadrature space</p></li>
+<li><p>Issue 149: work on the prediction of the solution</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="release_notes.html" class="btn btn-neutral float-left" title="Release notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release_notes-1.0.4.html" class="btn btn-neutral float-right" title="Release notes of Version 1.0.4" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021-2024, Thomas Helfer, Guillaume Latu, Raphaël Prat, Maxence Wangermez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

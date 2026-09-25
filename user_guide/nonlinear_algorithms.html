@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available nonlinear algorithms &mdash; The MFEM MGIS project  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"tex": {"macros": {"paren": ["{\\left(#1\\right)}", 1], "transpose": ["{\\left.#1\\right.^{T}}", 1], "bts": ["{\\left.#1\\right|_{\\mathrm{bts}}}", 1], "ets": ["{\\left.#1\\right|_{\\mathrm{ets}}}", 1]}}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Partial quadrature spaces and functions" href="partial_quadrature_functions/partial_quadrature_spaces_and_functions.html" />
+    <link rel="prev" title="Mechanical post-processings" href="post_processings/mechanical_postprocessings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The MFEM MGIS project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation_guide/installation_guide.html">Installation guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html">A tutorial introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview and main concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh/mesh.html">Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation/simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviour_integrators.html">Behaviour integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boundary_conditions.html">Boundary conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="post_processings/post_processings.html">Post-processings</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Available nonlinear algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prediction-of-the-solution">Prediction of the solution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#available-strategies">Available strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#newton-algorithm">Newton algorithm</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#handling-of-integration-failure">Handling of integration failure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="partial_quadrature_functions/partial_quadrature_spaces_and_functions.html">Partial quadrature spaces and functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glossary.html">Glossary Of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="help.html">Getting help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release_notes/release_notes.html">Release notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests/unit_tests.html">List of unit tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commented_examples/index.html">Commented Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/developer_guide.html">Developer guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The MFEM MGIS project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User guide</a></li>
+      <li class="breadcrumb-item active">Available nonlinear algorithms</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/user_guide/nonlinear_algorithms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="available-nonlinear-algorithms">
+<span id="mfem-mgis-nonlinear-algorithms"></span><h1>Available nonlinear algorithms<a class="headerlink" href="#available-nonlinear-algorithms" title="Link to this heading"></a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#prediction-of-the-solution" id="id2">Prediction of the solution</a></p>
+<ul>
+<li><p><a class="reference internal" href="#available-strategies" id="id3">Available strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#newton-algorithm" id="id4">Newton algorithm</a></p>
+<ul>
+<li><p><a class="reference internal" href="#handling-of-integration-failure" id="id5">Handling of integration failure</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="prediction-of-the-solution">
+<h2>Prediction of the solution<a class="headerlink" href="#prediction-of-the-solution" title="Link to this heading"></a></h2>
+<p>By default, a nonlinear evolution problem uses the solution at the
+beginning of the time step, modified by applying Dirichlet boundary
+conditions, as the initial guess of the solution at the end of the time
+step, see below for details.</p>
+<p>This can be changed by using the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">setPredictionPolicy</span></code>
+method, as follows:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// use the elastic operator by default</span>
+<span class="n">mechanics</span><span class="p">.</span><span class="n">setPredictionPolicy</span><span class="p">(</span>
+<span class="w">   </span><span class="p">{.</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">BEGINNING_OF_TIME_STEP_PREDICTION</span><span class="p">});</span>
+</pre></div>
+</div>
+<section id="available-strategies">
+<h3>Available strategies<a class="headerlink" href="#available-strategies" title="Link to this heading"></a></h3>
+<section id="default-prediction-predictionstrategy-default-prediction">
+<h4>Default prediction (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">DEFAULT_PREDICTION</span></code>)<a class="headerlink" href="#default-prediction-predictionstrategy-default-prediction" title="Link to this heading"></a></h4>
+<p>By default, a nonlinear evolution problem uses the solution at the
+beginning of the time step, modified by applying Dirichlet boundary
+conditions, as the initial guess of the solution at the end of the time
+step.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In mechanics, this may lead to very high increments of the deformation
+gradients or the strain in the neighboring elements of boundaries where
+evolving displacements are imposed.</p>
+</div>
+</section>
+<section id="prediction-for-the-state-at-the-beginning-of-the-time-step-predictionstrategy-beginning-of-time-step-prediction">
+<h4>Prediction for the state at the beginning of the time step (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">BEGINNING_OF_TIME_STEP_PREDICTION</span></code>)<a class="headerlink" href="#prediction-for-the-state-at-the-beginning-of-the-time-step-predictionstrategy-beginning-of-time-step-prediction" title="Link to this heading"></a></h4>
+<p>The prediction for the state at the beginning of the time step strategy
+determines the increment of the displacement <span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span>
+by solving the following linear system:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{K}\,\cdot\,\Delta\,\mathbb{u} = \ets{\mathbb{F}_{e}}-\bts{\mathbb{F}_{i}}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbb{K}_{e}\)</span> denotes one of the prediction operator (see below).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{e}}\)</span> denotes the external forces at the beginning
+of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{i}}\)</span> denotes the inner forces at the beginning
+of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span> is submitted to the increment of the
+imposed Dirichlet boundary conditions.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the wording explicitly refers to mechanics, this equation
+applies to all physics.</p>
+</div>
+<p>The following prediction operators can be chosen:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">ELASTIC</span></code>: the elastic operator</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">SECANT</span></code>: the secant operator is typically
+defined by the elastic operator</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">TANGENT_PREDICTION</span></code>: the tangent operator,
+defined by the time-continuous derivative of the thermodynamic force
+with respect to the gradients.</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionOperator</span><span class="o">::</span><span class="n">LAST_ITERATE_OPERATOR</span></code>: this operator reuses
+the one computed at the last iteration of the previous time step. At
+the first time step, the elastic operator is used.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Internally, the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computePrediction</span></code> methods of the
+<cite>NonLinearResolutionImplementation</cite> classes computes the opposite of the
+prediction.</p>
+</div>
+</section>
+<section id="prediction-based-on-a-behaviour-integration-with-constant-gradients-predictionstrategy-constant-gradients-integration-prediction">
+<h4>Prediction based on a behaviour integration with constant gradients (<code class="code highlight c++ docutils literal highlight-c++"><span class="n">PredictionStrategy</span><span class="o">::</span><span class="n">CONSTANT_GRADIENTS_INTEGRATION_PREDICTION</span></code>)<a class="headerlink" href="#prediction-based-on-a-behaviour-integration-with-constant-gradients-predictionstrategy-constant-gradients-integration-prediction" title="Link to this heading"></a></h4>
+<p>The <code class="code highlight c++ docutils literal highlight-c++"><span class="n">CONSTANT_GRADIENTS_INTEGRATION</span></code> strategy determines the
+increment of the unknown <span class="math notranslate nohighlight">\(\Delta\,{u}\)</span> by solving the following
+linear system:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{\mathbb{K}}\,\cdot\,\Delta\,\mathbb{u} =
+\ets{\mathbb{F}_{e}}-\ets{\tilde{\mathbb{F}}_{i}}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tilde{\mathbb{K}}\)</span> denotes the operator computed at the end of
+the behaviour integration.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bts{\mathbb{F}_{e}}\)</span> denotes the external forces at the
+beginning of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\ets{\tilde{\mathbb{F}}_{i}}\)</span> denotes an approximation inner
+forces at the end of the time step computed by assuming that the
+gradients are constant over the time (and thus equal to their values at
+the beginning of the time step).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta\,\mathbb{u}\)</span> is submitted to the increment of the
+imposed Dirichlet boundary conditions.</p></li>
+</ul>
+<p>The behaviour integration allows taking into account:</p>
+<ul class="simple">
+<li><p>the evolution of stress-free strain over the time step (thermal
+expansion, swelling, etc..),</p></li>
+<li><p>the viscoplastic relaxation of the stress. This relaxation can be
+discarded by integrating the behaviour with a null time step.</p></li>
+</ul>
+<p>The following operators are available:</p>
+<ul class="simple">
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">ELASTIC</span></code>: the elastic operator,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">SECANT</span></code>: the secant operator is typically
+defined by the elastic operator affected by damage,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">TANGENT</span></code>: the tangent operator, defined by
+the time-continuous derivative of the thermodynamic force with respect
+to the gradients,</p></li>
+<li><p><code class="code highlight c++ docutils literal highlight-c++"><span class="n">IntegrationOperator</span><span class="o">::</span><span class="n">CONSISTENT_TANGENT</span></code>: the consistent
+tangent operator, defined by the derivative of the thermodynamic force
+with respect to the gradients at the end of the time step. See
+<span class="bibtex-citation" id="id1">[<a class="reference internal" href="../index.html#id6" title="J. C. Simo and R. L. Taylor. Consistent tangent operators for rate-independent elastoplasticity. Computer Methods in Applied Mechanics and Engineering, 48(1):101–118, 1985. URL: http://www.sciencedirect.com/science/article/pii/0045782585900702 (visited on 2014-04-02), doi:10.1016/0045-7825(85)90070-2.">ST85</a>]</span> for details.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Internally, the <code class="code highlight c++ docutils literal highlight-c++"><span class="n">computePrediction</span></code> methods of the
+<cite>NonLinearResolutionImplementation</cite> classes computes the opposite of the
+prediction.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="newton-algorithm">
+<h2>Newton algorithm<a class="headerlink" href="#newton-algorithm" title="Link to this heading"></a></h2>
+<p>The default nonlinear solver is the Newton’s algorithm.</p>
+<p>Let <span class="math notranslate nohighlight">\(\mathbb{u}^{(n)}\)</span> be the estimate of the solution at the
+<span class="math notranslate nohighlight">\(n^{\text{th}}\)</span> iteration. The Newton’s algorithm determines a new
+estimate <span class="math notranslate nohighlight">\(\mathbb{u}^{(n+1)}\)</span> of the solution by computing a
+correction <span class="math notranslate nohighlight">\(\delta\,\mathbb{u}^{(n)}\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{K}\,\cdot\,\delta\,\mathbb{u}^{(n)} = \ets{\mathbb{F}_{e}}^{(n)}-\ets{\mathbb{F}_{i}}^{(n)}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbb{K}\)</span> denotes one of the search operator.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\ets{\mathbb{F}_{e}}^{(n)}\)</span> denotes current estimate of the
+external forces at the end of the time step.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\ets{\mathbb{F}_{i}}^{(n)}\)</span> denotes current estimate of the inner
+forces at the end of the time step.</p></li>
+</ul>
+<p>Currently, the search operator is given by the consistent tangent operator.</p>
+<p>The new estimate <span class="math notranslate nohighlight">\(\mathbb{u}^{(n+1)}\)</span> is calculated as follows:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{u}^{(n+1)} = \mathbb{u}^{(n)}+\delta\,\mathbb{u}^{(n)}\]</div>
+<section id="handling-of-integration-failure">
+<h3>Handling of integration failure<a class="headerlink" href="#handling-of-integration-failure" title="Link to this heading"></a></h3>
+<p>When the new estimate leads to an integration failure, a new estimate of
+the solution is calculated by keeping the same search direction but by
+reducing the amplitude of the correction by a factor <span class="math notranslate nohighlight">\(2\)</span> as
+follows:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{u}^{(n+1)} = \mathbb{u}^{(n)}+\frac{1}{2}\,\delta\,\mathbb{u}^{(n)}\]</div>
+<p>This reduction of the amplitude is repeated until an estimation of the
+solution that does not lead to an integration failure is found.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="post_processings/mechanical_postprocessings.html" class="btn btn-neutral float-left" title="Mechanical post-processings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="partial_quadrature_functions/partial_quadrature_spaces_and_functions.html" class="btn btn-neutral float-right" title="Partial quadrature spaces and functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021-2024, Thomas Helfer, Guillaume Latu, Raphaël Prat, Maxence Wangermez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
