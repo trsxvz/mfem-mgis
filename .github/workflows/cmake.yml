@@ -47,6 +47,7 @@ jobs:
         spack compiler find
         spack config add "config:install_tree:padded_length:128"
         spack config add "packages:all:require:[target=x86_64_v3]"
+        spack config add "concretizer:reuse:false"
         spack config add "packages:c:require:[gcc@12.4.0]"
         spack config add "packages:cxx:require:[gcc@12.4.0]"
         spack config add "packages:fortran:require:[gcc@12.4.0]"
