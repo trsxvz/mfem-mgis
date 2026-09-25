@@ -1,0 +1,44 @@
+name: Clean the build cache
+description: >
+  Remove from the build cache the packages that no job of the run used (see
+  push-build-cache), then update its index. Needs GH_TOKEN, GITHUB_USER and GITHUB_TOKEN.
+inputs:
+  prune:
+    description: remove the unused packages, only when all the jobs succeeded
+    required: true
+runs:
+  using: composite
+  steps:
+  - if: inputs.prune == 'true'
+    uses: actions/download-artifact@v4
+    with:
+      pattern: used-hashes-*
+  - name: Remove the unused packages
+    if: inputs.prune == 'true'
+    shell: bash
+    run: |
+      package=/users/${{ github.repository_owner }}/packages/container/${BUILD_CACHE##*/}
+      cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
+      echo "$(wc -l < keep.txt) packages used"
+      # safety net against empty or truncated lists
+      if [ "$(wc -l < keep.txt)" -lt 20 ]; then
+        echo "too few packages used, nothing removed"
+        exit 1
+      fi
+      gh api --paginate "$package/versions" \
+        --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' > versions.txt
+      echo "$(wc -l < versions.txt) versions in the build cache"
+      while IFS=$'\t' read -r id tags; do
+        hash=$(echo "$tags" | sed -nE 's/.*-([a-z0-9]{32})\.spack$/\1/p')
+        if [ -z "$tags" ] || { [ -n "$hash" ] && ! grep -qx "$hash" keep.txt; }; then
+          echo "removing $id ${tags:-(untagged)}"
+          gh api -X DELETE "$package/versions/$id" < /dev/null
+        fi
+      done < versions.txt
+  - name: Update the index
+    if: ${{ !cancelled() }}
+    shell: bash
+    run: |
+      spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
+            buildcache $BUILD_CACHE
+      spack buildcache update-index buildcache

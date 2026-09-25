@@ -42,6 +42,9 @@ jobs:
       if: matrix.build_type == 'Coverage'
       uses: hrishikesh-kadam/setup-lcov@v1
 
+    - name: Set up the build cache
+      uses: ./.github/actions/setup-build-cache
+
     - name: Install dependencies
       env:
         GITHUB_USER: ${{ github.actor }}
@@ -49,12 +52,7 @@ jobs:
       run: |
         git clone https://github.com/rprat-pro/spack-repo-mfem-mgis.git
         spack repo add spack-repo-mfem-mgis
-        spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
-              buildcache $BUILD_CACHE
         spack compiler find
-        spack config add "config:install_tree:padded_length:128"
-        spack config add "packages:all:require:[target=x86_64_v3]"
-        spack config add "concretizer:reuse:false"
         spack config add "packages:c:require:[gcc@12.4.0]"
         spack config add "packages:cxx:require:[gcc@12.4.0]"
         spack config add "packages:fortran:require:[gcc@12.4.0]"
@@ -70,26 +68,12 @@ jobs:
 
     - name: Push dependencies to the build cache
       if: github.event_name != 'pull_request'
+      uses: ./.github/actions/push-build-cache
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: spack buildcache push --only package buildcache $(spack --color never find --format '/{hash}')
-
-    # all the specs used by this job, including the build dependencies that are not
-    # installed when they come from the build cache, so that the cleanup keeps them
-    - name: List the dependencies used
-      if: github.event_name != 'pull_request'
-      run: |
-        spack --color never python -c 'import spack.store; print("\n".join(sorted({d.dag_hash() for s in spack.store.STORE.db.query() for d in s.traverse() if not d.external})))' \
-          > used-hashes.txt
-        wc -l used-hashes.txt
-
-    - name: Upload the list of dependencies used
-      if: github.event_name != 'pull_request'
-      uses: actions/upload-artifact@v4
       with:
-        name: used-hashes-${{ matrix.build_type }}
-        path: used-hashes.txt
+        artifact: used-hashes-${{ matrix.build_type }}
 
     - name: Configure MFEM-MGIS
       shell: spack-sh {0}
@@ -184,15 +168,16 @@ jobs:
         path: ${{github.workspace}}/coverage-report
 
   # a single update of the build cache once all the jobs have pushed, to avoid
-  # concurrent index updates: remove the entries that no job used, then update the index
+  # concurrent index updates, only on master
   update_build_cache:
     needs: run_tests
-    if: ${{ !cancelled() && github.event_name != 'pull_request' }}
+    if: ${{ !cancelled() && github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
+    - uses: actions/checkout@v4
     - name: Set up Spack
       uses: spack/setup-spack@v3
       with:
@@ -201,43 +186,11 @@ jobs:
         buildcache: false
         spack_path: ${{github.workspace}}/spack
 
-    - name: Download the lists of dependencies used
-      if: needs.run_tests.result == 'success'
-      uses: actions/download-artifact@v4
-      with:
-        pattern: used-hashes-*
-
-    # only when all the jobs succeeded, otherwise the lists may be incomplete
-    - name: Remove the unused build cache entries
-      if: needs.run_tests.result == 'success'
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        package=/users/${{ github.repository_owner }}/packages/container/${BUILD_CACHE##*/}
-        cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
-        echo "$(wc -l < keep.txt) specs used"
-        # safety net against empty or truncated lists
-        if [ "$(wc -l < keep.txt)" -lt 20 ]; then
-          echo "too few specs used, nothing removed"
-          exit 1
-        fi
-        gh api --paginate "$package/versions" \
-          --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' > versions.txt
-        echo "$(wc -l < versions.txt) versions in the build cache"
-        while IFS=$'\t' read -r id tags; do
-          hash=$(echo "$tags" | sed -nE 's/.*-([a-z0-9]{32})\.spack$/\1/p')
-          if [ -z "$tags" ] || { [ -n "$hash" ] && ! grep -qx "$hash" keep.txt; }; then
-            echo "removing $id ${tags:-(untagged)}"
-            gh api -X DELETE "$package/versions/$id" < /dev/null
-          fi
-        done < versions.txt
-
-    - name: Update the build cache index
-      if: ${{ !cancelled() }}
+    - name: Clean the build cache
+      uses: ./.github/actions/clean-build-cache
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
-              buildcache $BUILD_CACHE
-        spack buildcache update-index buildcache
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        prune: ${{ needs.run_tests.result == 'success' }}
