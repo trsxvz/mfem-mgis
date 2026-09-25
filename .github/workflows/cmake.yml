@@ -180,8 +180,9 @@ jobs:
         name: code-coverage-report
         path: ${{github.workspace}}/coverage-report
 
-  # a single index update once all the jobs have pushed, to avoid concurrent updates
-  update_build_cache_index:
+  # a single update of the build cache once all the jobs have pushed, to avoid
+  # concurrent index updates: remove the entries that no job used, then update the index
+  update_build_cache:
     needs: run_tests
     if: ${{ !cancelled() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
@@ -197,7 +198,39 @@ jobs:
         buildcache: false
         spack_path: ${{github.workspace}}/spack
 
+    - name: Download the lists of dependencies used
+      if: needs.run_tests.result == 'success'
+      uses: actions/download-artifact@v4
+      with:
+        pattern: used-hashes-*
+
+    # only when all the jobs succeeded, otherwise the lists may be incomplete
+    - name: Remove the unused build cache entries
+      if: needs.run_tests.result == 'success'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        package=/users/${{ github.repository_owner }}/packages/container/mfem-mgis-buildcache
+        cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
+        echo "$(wc -l < keep.txt) specs used"
+        # safety net against empty or truncated lists
+        if [ "$(wc -l < keep.txt)" -lt 20 ]; then
+          echo "too few specs used, nothing removed"
+          exit 1
+        fi
+        gh api --paginate "$package/versions" \
+          --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' > versions.txt
+        echo "$(wc -l < versions.txt) versions in the build cache"
+        while IFS=$'\t' read -r id tags; do
+          hash=$(echo "$tags" | sed -nE 's/.*-([a-z0-9]{32})\.spack$/\1/p')
+          if [ -z "$tags" ] || { [ -n "$hash" ] && ! grep -qx "$hash" keep.txt; }; then
+            echo "removing $id ${tags:-(untagged)}"
+            gh api -X DELETE "$package/versions/$id" < /dev/null
+          fi
+        done < versions.txt
+
     - name: Update the build cache index
+      if: ${{ !cancelled() }}
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -205,29 +238,3 @@ jobs:
         spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
               buildcache oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
         spack buildcache update-index buildcache
-
-    - name: Download the lists of dependencies used
-      if: needs.run_tests.result == 'success'
-      uses: actions/download-artifact@v4
-      with:
-        pattern: used-hashes-*
-
-    # dry run: only list the build cache entries that no job used
-    - name: Clean the build cache (dry run)
-      if: needs.run_tests.result == 'success'
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cat used-hashes-*/used-hashes.txt | sort -u > keep.txt
-        echo "$(wc -l < keep.txt) specs used"
-        gh api --paginate "/users/${{ github.repository_owner }}/packages/container/mfem-mgis-buildcache/versions" \
-          --jq '.[] | [.id, (.metadata.container.tags | join(","))] | @tsv' > versions.txt
-        echo "$(wc -l < versions.txt) versions in the build cache"
-        while IFS=$'\t' read -r id tags; do
-          hash=$(echo "$tags" | sed -nE 's/.*-([a-z0-9]{32})\.spack$/\1/p')
-          if [ -z "$tags" ]; then
-            echo "would delete $id (untagged)"
-          elif [ -n "$hash" ] && ! grep -qx "$hash" keep.txt; then
-            echo "would delete $id $tags"
-          fi
-        done < versions.txt
