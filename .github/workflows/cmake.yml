@@ -70,7 +70,7 @@ jobs:
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: spack buildcache push --only package --update-index buildcache $(spack --color never find --format '/{hash}')
+      run: spack buildcache push --only package buildcache $(spack --color never find --format '/{hash}')
 
     - name: Configure MFEM-MGIS
       shell: spack-sh {0}
@@ -163,3 +163,29 @@ jobs:
       with:
         name: code-coverage-report
         path: ${{github.workspace}}/coverage-report
+
+  # a single index update once all the jobs have pushed, to avoid concurrent updates
+  update_build_cache_index:
+    needs: run_tests
+    if: ${{ !cancelled() && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Set up Spack
+      uses: spack/setup-spack@v3
+      with:
+        spack_ref: v1.2.2
+        packages_ref: develop
+        buildcache: false
+        spack_path: ${{github.workspace}}/spack
+
+    - name: Update the build cache index
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        spack mirror add --unsigned --oci-username-variable GITHUB_USER --oci-password-variable GITHUB_TOKEN \
+              buildcache oci://ghcr.io/${{ github.repository_owner }}/mfem-mgis-buildcache
+        spack buildcache update-index buildcache
