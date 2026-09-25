@@ -117,7 +117,7 @@ jobs:
               -DMFEMMGIS_DIR=${{github.workspace}}/install/mfem-mgis/share/mfem-mgis/cmake/ \
               -DMFrontGenericInterface_DIR=`spack location -i mgis`/share/mgis/cmake \
               -DTFEL_DIR=`spack location -i tfel`/share/tfel/cmake
-        cmake --build ${{github.workspace}}/build-mfem-mgis-examples
+        cmake --build ${{github.workspace}}/build-mfem-mgis-examples -j $(nproc)
 
     - name: Test MFEM-MGIS-EXAMPLES
       shell: spack-sh {0}
@@ -143,7 +143,7 @@ jobs:
               -DMFEMMGIS_DIR=${{github.workspace}}/install/mfem-mgis/share/mfem-mgis/cmake/ \
               -DMFrontGenericInterface_DIR=`spack location -i mgis`/share/mgis/cmake \
               -DTFEL_DIR=`spack location -i tfel`/share/tfel/cmake
-        cmake --build ${{github.workspace}}/build-mm-opera-hpc
+        cmake --build ${{github.workspace}}/build-mm-opera-hpc -j $(nproc)
 
     - name: Test MM-OPERA-HPC
       shell: spack-sh {0}
