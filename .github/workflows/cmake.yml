@@ -66,7 +66,7 @@ jobs:
         fi
 
     - name: Push dependencies to the build cache
-      if: github.event_name != 'pull_request'
+      if: github.ref == 'refs/heads/master'
       uses: ./.github/actions/push-build-cache
       env:
         GITHUB_USER: ${{ github.actor }}
