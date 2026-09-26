@@ -1,0 +1,20 @@
+name: Save ccache
+description: >
+  Save the compilations cached by the job (see setup-ccache), without the ones it did not
+  use, so that the cache cannot grow forever.
+inputs:
+  key:
+    description: name of the cache, as given to setup-ccache
+    required: true
+runs:
+  using: composite
+  steps:
+  - name: Remove the unused compilations
+    shell: bash
+    run: |
+      ccache --evict-older-than $(( $(date +%s) - CCACHE_START ))s
+      ccache --show-stats
+  - uses: actions/cache/save@v6
+    with:
+      path: ${{ runner.temp }}/ccache
+      key: ccache-${{ inputs.key }}-${{ github.run_id }}-${{ github.run_attempt }}
