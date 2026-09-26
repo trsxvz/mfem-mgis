@@ -24,7 +24,9 @@ jobs:
     - uses: actions/checkout@v7
 
     - name: Install Doxygen
-      run: sudo apt-get install doxygen -y
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen
 
     # Doxyfile.in only uses the project information and directories,
     # so there is no need to configure the project with CMake.
