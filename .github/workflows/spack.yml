@@ -1,14 +1,14 @@
 name: "Spack"
 
 on:
-  # Always have a base image ready to go - this is a nightly build
+  # Keep the build cache up to date with the latest dependencies
   schedule:
     - cron: 17 1 * * *
 
   # Allow manual trigger of a build
   workflow_dispatch:
 
-  # On push to main we build and deploy images
+  # Test the new commits of master, which update the build cache
   push:
     branches:
       - master
@@ -18,7 +18,7 @@ on:
     branches:
       - master
 
-  # Publish packages on release
+  # Test the published releases
   release:
     types: [published]
 
