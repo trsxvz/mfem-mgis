@@ -105,8 +105,6 @@ jobs:
       - name: Save ccache
         if: ${{ !cancelled() && steps.ccache.outcome == 'success' }}
         uses: ./.github/actions/save-ccache
-        with:
-          key: spack-${{ matrix.spack.version }}${{ matrix.mpi }}
 
   # a single update of the build cache once all the jobs have pushed, only on master
   update_build_cache:

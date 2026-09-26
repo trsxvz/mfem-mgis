@@ -183,8 +183,6 @@ jobs:
     - name: Save ccache
       if: ${{ !cancelled() && steps.ccache.outcome == 'success' }}
       uses: ./.github/actions/save-ccache
-      with:
-        key: ${{ matrix.build_type }}
 
   # a single update of the build cache once all the jobs have pushed, to avoid
   # concurrent index updates, only on master
