@@ -39,9 +39,12 @@ jobs:
         color: true            # Force color output (SPACK_COLOR=always)
         spack_path: ${{github.workspace}}/spack       # Where to clone Spack
 
+    # only required by the coverage target of CMakeLists.txt, the report being made by gcovr
     - name: Set up LCOV
       if: matrix.build_type == 'Coverage'
-      uses: hrishikesh-kadam/setup-lcov@v1
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lcov
 
     - name: Set up the build cache
       uses: ./.github/actions/setup-build-cache
