@@ -75,8 +75,7 @@ jobs:
           spack -e $env add "mfem-mgis@master${{ matrix.mpi }} ^tfel@master commit=$tfel ^mgis@master commit=$mgis"
           # build the checked out sources rather than the master branch fetched by the
           # recipe, which only changes the hash of mfem-mgis, not of its dependencies
-          spack -e $env develop --no-clone --path ${{ github.workspace }} \
-                --build-directory ${{ runner.temp }}/mfem-mgis-build mfem-mgis@master
+          spack -e $env develop --no-clone --path ${{ github.workspace }} mfem-mgis@master
           spack -e $env install --only dependencies
       # MFEM MGIS itself is never cached, so that it is always built and tested
       - name: Push the dependencies to the build cache
