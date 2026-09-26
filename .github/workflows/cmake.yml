@@ -5,9 +5,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  # keep the build cache up to date with the latest dependencies
+  # keep the build cache up to date with the latest dependencies, not at the start of
+  # an hour, when GitHub delays the scheduled runs the most
   schedule:
-    - cron: 0 3 * * *
+    - cron: 17 1 * * *
   workflow_dispatch:
 
 concurrency:

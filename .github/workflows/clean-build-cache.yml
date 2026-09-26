@@ -4,7 +4,7 @@ on:
   # remove everything once a month, before the nightly builds which fill the build
   # caches again, so that they cannot grow while the builds keep failing
   schedule:
-    - cron: 30 2 1 * *
+    - cron: 47 0 1 * *
   workflow_dispatch:
 
 jobs:
