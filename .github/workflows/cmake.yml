@@ -177,6 +177,7 @@ jobs:
       with:
         name: code-coverage-report
         path: ${{github.workspace}}/coverage-report
+        overwrite: true  # when the job is rerun
 
     # even when a test fails, so that the next run does not compile everything again
     - name: Save ccache
