@@ -92,7 +92,6 @@ jobs:
         uses: ./.github/actions/setup-ccache
         with:
           key: spack-${{ matrix.spack.version }}${{ matrix.mpi }}
-          march-native: false  # spack sets the target of the compilations
       - name: Install MFEM MGIS
         env:
           GITHUB_USER: ${{ github.actor }}
